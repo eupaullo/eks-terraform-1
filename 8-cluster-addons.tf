@@ -44,7 +44,7 @@ resource "aws_eks_addon" "aws_ebs_csi_driver" {
 
   #service_account_role_arn = aws_iam_role.ebs_csi_controller_sa[0].arn
 
-  preserve = true
+  preserve = false
 
   tags = merge(
     var.tags,
@@ -58,10 +58,10 @@ resource "aws_eks_addon" "vpc_cni" {
   count = alltrue([var.create_cluster, var.create_eks_addons]) ? 1 : 0
   #count = var.addon_create_vpc_cni ? 1 : 0
 
-  cluster_name             = data.aws_eks_cluster.default.name
-  addon_name               = "vpc-cni"
-  resolve_conflicts        = "OVERWRITE"
-  addon_version            = var.eks_addon_version_vpc_cni
+  cluster_name      = data.aws_eks_cluster.default.name
+  addon_name        = "vpc-cni"
+  resolve_conflicts = "OVERWRITE"
+  addon_version     = var.eks_addon_version_vpc_cni
   #service_account_role_arn = module.irsa_vpc_cni.iam_role_arn
 
   lifecycle {

@@ -7,15 +7,15 @@ variable "create_eks_addons" {
 variable "eks_addon_version_kube_proxy" {
   type        = string
   description = "Kube proxy managed EKS addon version."
-  default     = "v1.23.7-eksbuild.1"
-  #default     = "v1.25.6-eksbuild.1"
+  #default     = "v1.23.7-eksbuild.1"
+  default = "v1.24.7-eksbuild.2"
 }
 
 variable "eks_addon_version_core_dns" {
   type        = string
   description = "Core DNS managed EKS addon version."
-  default     = "v1.8.7-eksbuild.2"
-  #default     = "v1.9.3-eksbuild.2"
+  default     = "v1.8.7-eksbuild.4"
+  #default = "v1.9.3-eksbuild.2"
 }
 
 variable "eks_addon_version_ebs_csi_driver" {
@@ -42,9 +42,19 @@ variable "container_runtime" {
   description = "Container runtime used by EKS worker nodes. Allowed values: `dockerd` and `containerd`."
   default     = "containerd"
 }
+
+# variable "volume_type" {
+#   description = "ebs volume type"
+#   default     = "gp3"
+# }
+
+# variable "ami_id" {
+#   description = "AMI to launch the instance"
+#   default     = "ami-0213a37ee4d238308"
+# }
 # variable "region" {
 #   type        = string
-#   default     = "eu-west-1"
+#   default     = "us-west-1"
 #   description = "AWS region in which resources will get deployed. Defaults to Ireland."
 # }
 
@@ -90,9 +100,9 @@ variable "tags" {
   description = "Default tags attached to all resources."
 }
 
-variable "eks_version" {}
+# variable "eks_version" {}
 
-variable "eks_version_latest_ami" {}
+# variable "eks_version_latest_ami" {}
 
 variable "create_cluster" {
   type    = bool
@@ -198,3 +208,7 @@ variable "create_cluster" {
 #     error_message = "Argument \"aws_partition\" must be either \"public\" or \"china\"."
 #   }
 # }
+output "cluster_oidc_issuer_arn" {
+  description = "The ARN of the EKS cluster OIDC Issuer"
+  value       = aws_iam_openid_connect_provider.default.arn
+}
